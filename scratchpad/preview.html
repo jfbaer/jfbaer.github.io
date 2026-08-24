@@ -1,0 +1,172 @@
+<title>Eldritch Academic Template — Preview</title>
+<style>
+  :root {
+    --bg:            #212337;
+    --bg-elevated:   #282a36;
+    --bg-deep:       #171928;
+    --border:        #323449;
+    --fg:            #ebfafa;
+    --muted:         #7081d0;
+    --green:         #37f499;
+    --cyan:          #04d1f9;
+    --purple:        #a48cf2;
+    --red:           #f16c75;
+    --orange:        #f7c67f;
+    --yellow:        #f1fc79;
+    --font-body: 'Times New Roman', Times, serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.7;
+    padding: 2.5rem 1.25rem 4rem;
+  }
+
+  ::selection { background: var(--border); color: var(--fg); }
+
+  .wrap { width: min(720px, 100%); margin: 0 auto; }
+
+  /* ---- preview scaffolding (not part of the real site) ---- */
+  .preview-note {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.55rem 0.8rem;
+    margin: 0 0 2.5rem;
+    display: flex;
+    gap: 0.6rem;
+    align-items: baseline;
+  }
+  .preview-note strong { color: var(--green); font-family: var(--font-body); font-size: 0.85rem; letter-spacing: 0; text-transform: none; }
+
+  .swatches {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 0.6rem;
+    margin: 0 0 3.5rem;
+  }
+  .swatch {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .swatch .chip { height: 52px; }
+  .swatch .label {
+    padding: 0.45rem 0.6rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.7rem;
+    line-height: 1.5;
+    background: var(--bg-elevated);
+  }
+  .swatch .label b { display: block; color: var(--fg); font-size: 0.74rem; }
+  .swatch .label span { color: var(--muted); }
+  .swatch .label em { display:block; color: var(--muted); font-style: normal; margin-top: 0.15rem; }
+
+  hr.rule { border: 0; border-top: 1px dashed var(--border); margin: 3.5rem 0; }
+
+  /* ---- actual site styles ---- */
+  h1 { margin: 0; font-size: 2rem; font-weight: bold; color: var(--green); }
+  .subtitle { margin: 0.25rem 0 0; font-size: 1rem; color: var(--purple); }
+  .contact { margin: 0.75rem 0 0; font-size: 0.9rem; color: var(--muted); line-height: 1.6; }
+
+  section { margin-top: 2.5rem; }
+  h2 {
+    font-size: 1.2rem; font-weight: bold; color: var(--cyan);
+    border-bottom: 1px solid var(--border); padding-bottom: 0.3rem; margin: 0 0 1rem;
+  }
+
+  .entry { margin: 0 0 1rem; }
+  .entry-title { margin: 0; font-size: 1rem; font-weight: bold; color: var(--orange); }
+  .entry-authors, .entry-meta, .entry-links { margin: 0.1rem 0 0; font-size: 0.9rem; color: var(--muted); }
+  .entry-authors strong { color: var(--fg); }
+
+  a { color: var(--cyan); text-decoration: none; transition: color 0.15s; }
+  a:hover { color: var(--green); text-decoration: underline; }
+  a:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
+
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="wrap">
+  <p class="preview-note"><strong>Preview</strong> <span>Sample content shown in placeholder slots · Eldritch theme · Times New Roman</span></p>
+
+  <div class="swatches">
+    <div class="swatch"><div class="chip" style="background:#212337"></div><div class="label"><b>--bg</b><span>#212337</span><em>page background</em></div></div>
+    <div class="swatch"><div class="chip" style="background:#282a36"></div><div class="label"><b>--bg-elevated</b><span>#282a36</span><em>cards / bars</em></div></div>
+    <div class="swatch"><div class="chip" style="background:#171928"></div><div class="label"><b>--bg-deep</b><span>#171928</span><em>image well</em></div></div>
+    <div class="swatch"><div class="chip" style="background:#37f499"></div><div class="label"><b>--green</b><span>#37f499</span><em>name / accent</em></div></div>
+    <div class="swatch"><div class="chip" style="background:#04d1f9"></div><div class="label"><b>--cyan</b><span>#04d1f9</span><em>links / headings</em></div></div>
+    <div class="swatch"><div class="chip" style="background:#a48cf2"></div><div class="label"><b>--purple</b><span>#a48cf2</span><em>subtitle</em></div></div>
+    <div class="swatch"><div class="chip" style="background:#f7c67f"></div><div class="label"><b>--orange</b><span>#f7c67f</span><em>pub titles</em></div></div>
+    <div class="swatch"><div class="chip" style="background:#7081d0"></div><div class="label"><b>--muted</b><span>#7081d0</span><em>meta text</em></div></div>
+    <div class="swatch"><div class="chip" style="background:#f16c75"></div><div class="label"><b>--red</b><span>#f16c75</span><em>rare emphasis</em></div></div>
+    <div class="swatch"><div class="chip" style="background:#f1fc79"></div><div class="label"><b>--yellow</b><span>#f1fc79</span><em>spice, if at all</em></div></div>
+  </div>
+
+  <hr class="rule">
+
+  <header>
+    <h1>Ada M. Whitlock</h1>
+    <p class="subtitle">Ph.D. Candidate in Computational Neuroscience</p>
+    <p class="contact">
+      awhitlock [at] university [dot] edu<br>
+      Kemeny Hall, Room 214<br>
+      <a href="#">Google Scholar</a> · <a href="#">GitHub</a> · <a href="#">ORCID</a>
+    </p>
+  </header>
+
+  <section>
+    <h2>About me</h2>
+    <p>
+      I am a Ph.D. candidate at <a href="#">Miskatonic University</a>, advised by
+      <a href="#">Prof. Eleanor Vance</a>. My research concerns how populations of
+      neurons encode uncertainty, and what that computation implies for models of
+      perceptual decision-making.
+    </p>
+    <p>
+      I work with large-scale electrophysiology and probabilistic models, and I'm
+      currently interested in how attention reshapes population geometry over the
+      course of a single trial.
+    </p>
+    <p>My CV can be found <a href="#">here</a>.</p>
+  </section>
+
+  <section>
+    <h2>Publications</h2>
+
+    <article class="entry">
+      <h3 class="entry-title">Population Geometry of Uncertainty in Parietal Cortex</h3>
+      <p class="entry-authors"><strong>A. M. Whitlock</strong>, E. Vance, R. Okafor</p>
+      <p class="entry-meta">2025, Journal of Neural Computation</p>
+      <p class="entry-links"><a href="#">arXiv</a> · <a href="#">DOI</a></p>
+    </article>
+
+    <article class="entry">
+      <h3 class="entry-title">Attention Warps the Manifold: A Trial-Resolved Account</h3>
+      <p class="entry-authors">R. Okafor, <strong>A. M. Whitlock</strong>, E. Vance</p>
+      <p class="entry-meta">2024, Proceedings of the Systems Neuroscience Conference</p>
+      <p class="entry-links"><a href="#">arXiv</a></p>
+    </article>
+  </section>
+
+  <section>
+    <h2>Preprints</h2>
+
+    <article class="entry">
+      <h3 class="entry-title">Decoding Confidence Without Behavioral Report</h3>
+      <p class="entry-authors"><strong>A. M. Whitlock</strong>, D. Halloran</p>
+      <p class="entry-meta">2025</p>
+      <p class="entry-links"><a href="#">arXiv</a></p>
+    </article>
+  </section>
+</div>

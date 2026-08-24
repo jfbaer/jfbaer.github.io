@@ -1,0 +1,8 @@
+# PRE-LAUNCH: the site is unlisted — reachable by direct link, but kept out
+# of search engines. To GO PUBLIC, replace the two lines below with:
+#     User-agent: *
+#     Disallow:
+# (an empty Disallow allows everything) and remove the noindex <meta> in
+# template.html. See DEPLOY.md.
+User-agent: *
+Disallow: /

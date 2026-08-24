@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>font lab</title>
+<!--
+  A DEV TOOL — not part of the published site.
+
+  It previews fonts by loading them from Google Fonts into an <iframe> of
+  your live homepage, so you can cycle through a big list and watch each
+  one on the real page. When you find one you like:
+
+    1. copy the style.md line shown at the bottom, paste it into style.md
+    2. self-host it so the PUBLIC site makes no third-party request:
+         python3 vendor_font.py "The Font Name"
+    3. python3 build.py
+
+  Open it via the dev server so the iframe is same-origin:
+    python3 serve.py    ->    http://localhost:8000/font-lab.html
+-->
+<style>
+  :root{
+    --paper:#FCFBF8; --sunk:#F4F1E9; --ink:#14130F; --muted:#5A574D;
+    --rule:#E3DFD4; --accent:#A93B1B; --mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;height:100vh;display:grid;grid-template-columns:340px 1fr;
+       font:15px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+       background:var(--paper);color:var(--ink)}
+  .panel{border-right:1px solid var(--rule);display:flex;flex-direction:column;min-height:0}
+  .panel h1{font:600 12px/1 var(--mono);letter-spacing:.14em;text-transform:lowercase;
+            color:var(--muted);margin:0;padding:16px 16px 10px}
+  .slots{display:flex;gap:6px;padding:0 16px 10px}
+  .slot{flex:1;border:1px solid var(--rule);background:transparent;color:var(--muted);
+        padding:8px 6px;border-radius:6px;cursor:pointer;font:11px/1.3 var(--mono);
+        letter-spacing:.04em;text-transform:lowercase;text-align:center}
+  .slot small{display:block;opacity:.7;margin-top:3px}
+  .slot[aria-pressed="true"]{border-color:var(--accent);color:var(--accent);background:#F5E9E3}
+  .controls{padding:0 16px 10px;display:flex;gap:8px;align-items:center}
+  .controls input[type=search]{flex:1;padding:7px 9px;border:1px solid var(--rule);
+        border-radius:6px;background:var(--paper);color:var(--ink);font-size:13px}
+  .controls label{font:11px/1 var(--mono);color:var(--muted);display:flex;gap:4px;align-items:center}
+  ul{list-style:none;margin:0;padding:0 8px;overflow:auto;flex:1;min-height:0}
+  li{padding:8px 10px;border-radius:6px;cursor:pointer;display:flex;justify-content:space-between;
+     align-items:baseline;gap:8px}
+  li:hover{background:var(--sunk)}
+  li[aria-selected="true"]{background:var(--accent);color:#fff}
+  li[aria-selected="true"] .cat{color:#fff;opacity:.8}
+  li .nm{font-size:14px}
+  li .cat{font:9px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .out{border-top:1px solid var(--rule);padding:12px 16px;background:var(--sunk)}
+  .out .row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+  .out code{display:block;font:12px/1.5 var(--mono);background:var(--paper);
+            border:1px solid var(--rule);border-radius:5px;padding:7px 9px;margin:4px 0;
+            white-space:pre-wrap;word-break:break-all}
+  .out button{font:11px/1 var(--mono);border:1px solid var(--rule);background:var(--paper);
+              color:var(--ink);padding:6px 10px;border-radius:6px;cursor:pointer}
+  .out button:hover{border-color:var(--accent);color:var(--accent)}
+  .hint{font:10px/1.4 var(--mono);color:var(--muted);margin-top:6px}
+  .stage{display:flex;flex-direction:column;min-height:0}
+  .stagebar{display:flex;gap:10px;align-items:center;padding:10px 16px;border-bottom:1px solid var(--rule);
+            font:11px/1 var(--mono);color:var(--muted)}
+  .stagebar button{font:inherit;border:1px solid var(--rule);background:transparent;color:var(--muted);
+                   padding:6px 10px;border-radius:999px;cursor:pointer}
+  .stagebar button:hover{border-color:var(--accent);color:var(--accent)}
+  iframe{border:0;flex:1;width:100%;background:var(--paper)}
+</style>
+</head>
+<body>
+  <div class="panel">
+    <h1>font lab</h1>
+    <div class="slots">
+      <button class="slot" data-slot="serif" aria-pressed="true">serif<small>body + headings</small></button>
+      <button class="slot" data-slot="mono" aria-pressed="false">mono<small>labels</small></button>
+    </div>
+    <div class="controls">
+      <input type="search" id="q" placeholder="filter fonts…" autocomplete="off">
+      <label><input type="checkbox" id="all"> all</label>
+    </div>
+    <ul id="list"></ul>
+    <div class="out">
+      <div class="row"><strong style="font:600 11px/1 var(--mono);letter-spacing:.1em;text-transform:lowercase;color:var(--muted)">for style.md</strong>
+        <button id="copy">copy</button></div>
+      <code id="lines"></code>
+      <div class="hint">then self-host:  <span id="vendorcmd"></span></div>
+    </div>
+  </div>
+  <div class="stage">
+    <div class="stagebar">
+      <span>preview</span>
+      <button id="prev">‹ prev</button>
+      <button id="next">next ›</button>
+      <button id="theme">toggle dark</button>
+      <span style="margin-left:auto">↑ ↓ or ‹ › to cycle · applied live</span>
+    </div>
+    <iframe id="preview" src="index.html" title="live preview"></iframe>
+  </div>
+
+<script>
+// Curated list. cat drives which slot shows it: serif slot shows
+// serif/sans/display (your main face), mono slot shows mono (labels).
+const FONTS = [
+  // serif
+  ["Newsreader","serif"],["Fraunces","serif"],["Source Serif 4","serif"],
+  ["Lora","serif"],["Spectral","serif"],["Bitter","serif"],["Crimson Pro","serif"],
+  ["Crimson Text","serif"],["EB Garamond","serif"],["Cormorant","serif"],
+  ["Cormorant Garamond","serif"],["Libre Baskerville","serif"],["Libre Caslon Text","serif"],
+  ["Merriweather","serif"],["PT Serif","serif"],["Noto Serif","serif"],["Alegreya","serif"],
+  ["Vollkorn","serif"],["Literata","serif"],["Besley","serif"],["Domine","serif"],
+  ["Frank Ruhl Libre","serif"],["Sorts Mill Goudy","serif"],["Old Standard TT","serif"],
+  ["Cardo","serif"],["Brygada 1918","serif"],["STIX Two Text","serif"],["Petrona","serif"],
+  ["Piazzolla","serif"],["Gelasio","serif"],["Zilla Slab","serif"],["Rosario","serif"],
+  // display
+  ["Playfair Display","display"],["DM Serif Display","display"],["DM Serif Text","display"],
+  ["Marcellus","display"],["Unna","display"],["Bodoni Moda","display"],["Italiana","display"],
+  ["Cinzel","display"],["Yeseva One","display"],["Abril Fatface","display"],
+  // sans
+  ["Inter","sans"],["Public Sans","sans"],["Work Sans","sans"],["IBM Plex Sans","sans"],
+  ["Source Sans 3","sans"],["Manrope","sans"],["DM Sans","sans"],["Karla","sans"],
+  ["Libre Franklin","sans"],["Archivo","sans"],["Spline Sans","sans"],["Sora","sans"],
+  ["Epilogue","sans"],["Hanken Grotesk","sans"],["Space Grotesk","sans"],["Instrument Sans","sans"],
+  // mono
+  ["IBM Plex Mono","mono"],["JetBrains Mono","mono"],["Space Mono","mono"],["Fira Code","mono"],
+  ["Fira Mono","mono"],["Source Code Pro","mono"],["DM Mono","mono"],["Roboto Mono","mono"],
+  ["Ubuntu Mono","mono"],["Inconsolata","mono"],["Overpass Mono","mono"],["Red Hat Mono","mono"],
+  ["Martian Mono","mono"],["Spline Sans Mono","mono"],["Azeret Mono","mono"],["Anonymous Pro","mono"],
+  ["Cousine","mono"],["PT Mono","mono"],["B612 Mono","mono"],["Nova Mono","mono"],
+];
+
+const chosen = {serif:"Newsreader", mono:"IBM Plex Mono"};
+let slot = "serif", sel = 0, view = [];
+
+const iframe = document.getElementById('preview');
+const listEl = document.getElementById('list');
+const qEl = document.getElementById('q');
+const allEl = document.getElementById('all');
+
+const slug = s => s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+const fallback = s => s==='mono' ? "ui-monospace, Menlo, monospace" : "Georgia, 'Times New Roman', serif";
+
+function doc(){ try { return iframe.contentDocument; } catch(e){ return null; } }
+
+function loadGoogle(d, family){
+  const id = 'gf-' + slug(family);
+  if (!d || d.getElementById(id)) return;
+  const link = d.createElement('link'); link.id = id; link.rel = 'stylesheet';
+  link.href = 'https://fonts.googleapis.com/css2?family=' +
+    family.replace(/ /g,'+') + ':ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap';
+  d.head.appendChild(link);
+}
+
+function applyAll(){
+  const d = doc(); if (!d || !d.documentElement) return;
+  for (const s of ['serif','mono']){
+    loadGoogle(d, chosen[s]);
+    d.documentElement.style.setProperty('--font-'+s, `'${chosen[s]}', ${fallback(s)}`);
+  }
+  renderOut();
+}
+
+function renderOut(){
+  document.getElementById('lines').textContent =
+    `font-serif:  '${chosen.serif}', Georgia, 'Times New Roman', serif\n` +
+    `font-mono:   '${chosen.mono}', ui-monospace, Menlo, monospace`;
+  document.getElementById('vendorcmd').textContent =
+    `python3 vendor_font.py "${chosen.serif}" "${chosen.mono}"`;
+}
+
+function relevant(cat){
+  if (allEl.checked) return true;
+  return slot==='mono' ? cat==='mono' : cat!=='mono';
+}
+
+function renderList(){
+  const q = qEl.value.trim().toLowerCase();
+  view = FONTS.filter(([n,c]) => relevant(c) && n.toLowerCase().includes(q));
+  const cur = chosen[slot];
+  sel = Math.max(0, view.findIndex(([n]) => n===cur));
+  listEl.innerHTML = '';
+  view.forEach(([n,c],i)=>{
+    const li = document.createElement('li');
+    li.setAttribute('aria-selected', i===sel);
+    li.innerHTML = `<span class="nm">${n}</span><span class="cat">${c}</span>`;
+    li.onclick = ()=>{ sel=i; pick(); };
+    listEl.appendChild(li);
+  });
+  syncSelected();
+}
+
+function syncSelected(){
+  [...listEl.children].forEach((li,i)=> li.setAttribute('aria-selected', i===sel));
+  const el = listEl.children[sel]; if (el) el.scrollIntoView({block:'nearest'});
+}
+
+function pick(){
+  if (!view[sel]) return;
+  chosen[slot] = view[sel][0];
+  applyAll(); syncSelected();
+}
+
+function move(delta){
+  if (!view.length) return;
+  sel = (sel + delta + view.length) % view.length;
+  pick();
+}
+
+document.querySelectorAll('.slot').forEach(b=> b.onclick = ()=>{
+  slot = b.dataset.slot;
+  document.querySelectorAll('.slot').forEach(x=> x.setAttribute('aria-pressed', x===b));
+  renderList();
+});
+qEl.oninput = renderList;
+allEl.onchange = renderList;
+document.getElementById('prev').onclick = ()=> move(-1);
+document.getElementById('next').onclick = ()=> move(1);
+document.getElementById('copy').onclick = ()=>
+  navigator.clipboard.writeText(document.getElementById('lines').textContent);
+document.getElementById('theme').onclick = ()=>{
+  const d = doc(); if(!d) return;
+  const on = d.documentElement.getAttribute('data-theme')==='dark';
+  if(on) d.documentElement.removeAttribute('data-theme');
+  else d.documentElement.setAttribute('data-theme','dark');
+};
+document.addEventListener('keydown', e=>{
+  if (document.activeElement===qEl) return;
+  if (e.key==='ArrowDown'||e.key==='ArrowRight'){ e.preventDefault(); move(1); }
+  if (e.key==='ArrowUp'||e.key==='ArrowLeft'){ e.preventDefault(); move(-1); }
+});
+
+// Re-apply after the iframe (re)loads — e.g. serve.py live reload.
+iframe.addEventListener('load', ()=> setTimeout(applyAll, 60));
+renderList();
+</script>
+</body>
+</html>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- PRE-LAUNCH: keeps the site UNLISTED — anyone with the link can view it,
+       but search engines won't index it. To GO PUBLIC, delete this one line
+       and loosen robots.txt (see DEPLOY.md), then rebuild. -->
+  <meta name="robots" content="noindex, nofollow">
+  <title>Research — Jake Francis Baer</title>
+  <meta name="description" content="Research and preprints of Jake Francis Baer.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="fonts/fonts.css">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="vendor/katex/katex.min.css">
+  <!-- Apply the saved theme before first paint so dark-mode visitors
+       never see a flash of light. ES5 + try/catch: this runs before
+       anything else and must not throw in a private window. -->
+  <script>
+    (function () {
+      var KEY = 'theme';                 /* 'dark' when chosen; absent = light */
+      var root = document.documentElement;
+      try {
+        if (localStorage.getItem(KEY) === 'dark') root.setAttribute('data-theme', 'dark');
+      } catch (e) { /* private mode: stay light */ }
+      window.__theme = {
+        isDark: function () { return root.getAttribute('data-theme') === 'dark'; },
+        set: function (dark) {
+          try {
+            if (dark) { root.setAttribute('data-theme', 'dark'); localStorage.setItem(KEY, 'dark'); }
+            else      { root.removeAttribute('data-theme');       localStorage.removeItem(KEY); }
+          } catch (e) {
+            if (dark) root.setAttribute('data-theme', 'dark'); else root.removeAttribute('data-theme');
+          }
+          document.dispatchEvent(new CustomEvent('themechange'));
+        }
+      };
+    })();
+  </script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <div class="wrap">
+    <nav class="nav">
+
+      <span class="brand label"><a href="index.html">Jake Francis Baer</a></span>
+      <a class="label" href="research.html" aria-current="page">research</a>
+      <a class="label" href="teaching.html">teaching</a>
+      <a class="label" href="fun.html">fun</a>
+      <button class="theme-toggle label" type="button" hidden>dark</button>
+    </nav>
+  </div>
+
+  <main id="main" class="prose">
+    <!-- GENERATED FILE — do not edit. Edit pages/research.md and run `python3 build.py`. -->
+
+    <header class="identity">
+      <h1>Research</h1>
+      </header>
+
+    <p>
+      My favorite questions in mathematics involve geometrically flavored classification problems whose solutions depend on the explicit computation of some invariant of a space. I'm particularly interested in revisiting classical problems in homotopy theory and applying computer automation to methods traditionally done by hand.
+    </p>
+    <style>
+      /* Two equal columns (bullets | chart) in a block that breaks out a little
+         wider than the prose, so the pair reads compact and symmetric. */
+      .focus-row{ position:relative; left:50%; transform:translateX(-50%);
+                  width:min(48rem, calc(100vw - 3rem));
+                  display:flex; gap:var(--s6); align-items:flex-start;
+                  justify-content:center; flex-wrap:wrap;
+                  margin-block:var(--s5) var(--s4); }
+      /* share leftover space and WRAP long items, rather than widening the column
+         until the chart is shoved out of the row. */
+      .focus-row .focus-list{ flex:1 1 0; min-width:min(16rem, 100%); margin:0; }
+      .focus-row .focus-list ul{ margin:0; }
+      /* lead-in that introduces the bullets, kept in the column so it lines up
+         with them (instead of sitting up in the full-width intro paragraph). */
+      .focus-row .focus-lead{ margin:0 0 var(--s3); text-wrap:pretty; }
+      .focus-row .focus-viz{ flex:0 0 auto; width:min(25rem, calc(100vw - 3rem)); }
+      .focus-row .focus-viz figure{ margin:0; }
+      /* aspect ratio matches the chart's own viewBox (420/312) so it fills the
+         box with almost no letterboxing — bigger, bolder on the page. */
+      .focus-row .focus-viz iframe{ display:block; width:100%;
+                  aspect-ratio:420 / 312; border:0; background:transparent; }
+      .focus-row .focus-caption{ margin-top:var(--s3); text-align:center;
+                  text-transform:none; font-family:var(--font-mono);
+                  font-size:.64rem; line-height:1.5; letter-spacing:.02em;
+                  color:var(--muted); text-wrap:pretty; }
+      /* the tall focus block already gives plenty of separation, so pull the
+         first section heading up out of its default (large) top margin. */
+      #homotopy-groups-of-spheres .rule-label{ margin-top:var(--s4); }
+      @media (max-width:48rem){
+        .focus-row{ left:0; transform:none; width:100%; }
+      }
+    </style>
+    <div class="focus-row">
+      <div class="focus-list">
+        <p class="focus-lead">A few spectral sequences I've been thinking about recently:</p>
+        <ul>
+          <li>the unstable Adams and EHP sequence</li>
+          <li>the Atiyah&ndash;Hirzebruch spectral sequence for real projective spectra</li>
+          <li>the equivariant slice spectral sequence for higher real K-theories</li>
+        </ul>
+      </div>
+      <div class="focus-viz">
+        <figure>
+          <iframe src="viz/spectral/chart.html" title="Interactive spectral sequence — click to turn the page forward, right-click to go back" loading="lazy" scrolling="no"></iframe>
+          <figcaption class="focus-caption">a piece of the $C_4$-slice spectral sequence for $\mathrm{BP}^{(C_4)}\langle 1 \rangle$</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <section id="homotopy-groups-of-spheres">
+      <h2 class="rule-label"><span class="label">Homotopy groups of spheres</span></h2>
+      <p>
+        One of my favorite problems in algebraic topology is the classification of homotopy types of finite cell complexes. The key ingredient in this classification problem is explicit knowledge of homotopy groups of spheres.
+      </p>
+      <div class="cta">
+        <a class="button" href="viz/adams-charts/index.html" target="_blank" rel="noopener">launch unstable adams charts</a>
+      </div>
+      <p>
+        This link will take you to the unstable Adams charts that I generated in a recent computer-based approach to computing some new homotopy groups of spheres. The $\mathrm{E}_2$-page was computed using the lambda algebra and Curtis algorithm. Unstable Adams differentials were deduced from stable Adams differentials using the algebraic EHP sequence and the unstable Leibniz rule.
+      </p>
+    </section>
+
+    <section id="preprints-publications">
+      <h2 class="rule-label"><span class="label">Preprints/publications</span></h2>
+      <article class="entry">
+      <h3 class="entry-title">The algebraic Novikov spectral sequence for topological modular forms</h3>
+      <p class="entry-authors"><strong>Jake Francis Baer</strong></p>
+      <p class="entry-meta">2024 · Submitted</p>
+      <p class="entry-links"><a href="https://arxiv.org/abs/2404.05573">arXiv</a></p>
+      </article>
+
+      <article class="entry">
+      <h3 class="entry-title">Stable comodule deformations and the synthetic Adams&ndash;Novikov spectral sequence</h3>
+      <p class="entry-authors"><strong>Jake Francis Baer</strong>, Max Johnson, Peter Marek</p>
+      <p class="entry-meta">2024 · Submitted</p>
+      <p class="entry-links"><a href="https://arxiv.org/abs/2402.14274">arXiv</a></p>
+      </article>
+    </section>
+  </main>
+
+  <div class="wrap">
+    <footer class="site-footer">
+
+      <span class="label">© 2026 Jake Francis Baer</span>
+      <span class="sep label">·</span>
+      <span class="label">built with python + katex</span>
+      <span class="sep label">·</span>
+      <span class="label"><a href="https://github.com/">source</a></span>
+    </footer>
+  </div>
+  <script defer src="vendor/katex/katex.min.js"></script>
+  <script defer src="vendor/katex/auto-render.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      renderMathInElement(document.getElementById('main'), {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$',  right: '$',  display: false}
+        ],
+        throwOnError: false
+      });
+    });
+  </script>
+  <!-- Un-hide the toggle (so no-JS visitors never see a dead control)
+       and wire it up. Kept tiny and deferred. -->
+  <script>
+    (function () {
+      var btn = document.querySelector('.theme-toggle');
+      if (!btn || !window.__theme) return;
+      function sync() {
+        var dark = window.__theme.isDark();
+        btn.textContent = dark ? 'light' : 'dark';
+        btn.setAttribute('aria-pressed', String(dark));
+        btn.setAttribute('aria-label', 'Switch to ' + (dark ? 'light' : 'dark') + ' mode');
+      }
+      btn.hidden = false;
+      sync();
+      btn.addEventListener('click', function () { window.__theme.set(!window.__theme.isDark()); sync(); });
+    })();
+  </script>
+</body>
+</html>

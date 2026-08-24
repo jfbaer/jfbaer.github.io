@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- PRE-LAUNCH: keeps the site UNLISTED — anyone with the link can view it,
+       but search engines won't index it. To GO PUBLIC, delete this one line
+       and loosen robots.txt (see DEPLOY.md), then rebuild. -->
+  <meta name="robots" content="noindex, nofollow">
+  <title>{{title}}</title>
+  <meta name="description" content="{{description}}">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="fonts/fonts.css">
+  <link rel="stylesheet" href="styles.css">
+{{head_extra}}
+  <!-- Apply the saved theme before first paint so dark-mode visitors
+       never see a flash of light. ES5 + try/catch: this runs before
+       anything else and must not throw in a private window. -->
+  <script>
+    (function () {
+      var KEY = 'theme';                 /* 'dark' when chosen; absent = light */
+      var root = document.documentElement;
+      try {
+        if (localStorage.getItem(KEY) === 'dark') root.setAttribute('data-theme', 'dark');
+      } catch (e) { /* private mode: stay light */ }
+      window.__theme = {
+        isDark: function () { return root.getAttribute('data-theme') === 'dark'; },
+        set: function (dark) {
+          try {
+            if (dark) { root.setAttribute('data-theme', 'dark'); localStorage.setItem(KEY, 'dark'); }
+            else      { root.removeAttribute('data-theme');       localStorage.removeItem(KEY); }
+          } catch (e) {
+            if (dark) root.setAttribute('data-theme', 'dark'); else root.removeAttribute('data-theme');
+          }
+          document.dispatchEvent(new CustomEvent('themechange'));
+        }
+      };
+    })();
+  </script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <div class="wrap">
+    <nav class="nav">
+{{nav}}
+    </nav>
+  </div>
+
+  <main id="main" class="prose">
+{{content}}
+  </main>
+
+  <div class="wrap">
+    <footer class="site-footer">
+{{footer}}
+    </footer>
+  </div>
+{{body_scripts}}
+  <!-- Un-hide the toggle (so no-JS visitors never see a dead control)
+       and wire it up. Kept tiny and deferred. -->
+  <script>
+    (function () {
+      var btn = document.querySelector('.theme-toggle');
+      if (!btn || !window.__theme) return;
+      function sync() {
+        var dark = window.__theme.isDark();
+        btn.textContent = dark ? 'light' : 'dark';
+        btn.setAttribute('aria-pressed', String(dark));
+        btn.setAttribute('aria-label', 'Switch to ' + (dark ? 'light' : 'dark') + ' mode');
+      }
+      btn.hidden = false;
+      sync();
+      btn.addEventListener('click', function () { window.__theme.set(!window.__theme.isDark()); sync(); });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,356 @@
+/* GENERATED FILE — do not edit. Edit style.md and run `python3 build.py`. */
+
+:root {
+  color-scheme: light;
+  --font-serif: 'Literata', Georgia, 'Times New Roman', serif;
+  --font-mono: 'Roboto Mono', ui-monospace, Menlo, monospace;
+  --body-size: clamp(0.95rem, 0.90rem + 0.22vw, 1.00rem);
+  --line-height: 1.62;
+  --heading-tracking: -0.015em;
+  --heading-weight: 400;
+  --label-size: 0.7rem;
+  --label-weight: 500;
+  --label-tracking: 0.08em;
+  --label-transform: lowercase;
+  --link-underline-size: 1px;
+  --link-underline-hover: 2px;
+  --link-underline-offset: 0.08em;
+  --s1: 0.25rem;
+  --s2: 0.5rem;
+  --s3: 0.75rem;
+  --s4: 1rem;
+  --s5: 1.5rem;
+  --s6: 2rem;
+  --s7: 3rem;
+  --s8: 4.5rem;
+  --s9: 7rem;
+  --measure: 92ch;
+  --wide: 74rem;
+  --paper: #FFFFFF;
+  --paper-sunk: #EBEBEB;
+  --ink: #000000;
+  --muted: #5A5A5A;
+  --rule: #DCDCDC;
+  --accent: #1E66F5;
+  --accent-bg: #E0E9FD;
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --paper: #2E3440;
+  --paper-sunk: #3B4252;
+  --ink: #ECEFF4;
+  --muted: #7B88A1;
+  --rule: #434C5E;
+  --accent: #88C0D0;
+  --accent-bg: #3A4A54;
+}
+
+/* ================================================================
+   base.css — structural design system (the "how").
+
+   Colours, fonts, spacing and widths are NOT defined here; they come
+   from style.md, which build.py compiles into a :root token block and
+   prepends to this file to produce styles.css. Everything below is
+   written against those var(--…) tokens, so a retheme never touches
+   this file — edit style.md instead.
+
+   Modelled on Kyle Ormsby's e-infinity.space: paper & ink, one serif +
+   one mono label, gradient-underline links, a rule that trails off
+   after a section label. Structure is copyable; the palette is yours.
+   ================================================================ */
+
+/* ---------- Reset ---------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-serif);
+  font-size: var(--body-size);
+  line-height: var(--line-height);
+  font-variant-numeric: oldstyle-nums;   /* numerals sit in the line */
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  /* full-height flex column so the footer rests at the bottom of the
+     viewport instead of being pushed down by a big margin (keeps short
+     pages from scrolling). */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+main { flex: 1 0 auto; }   /* grow to fill, pushing the footer to the bottom */
+
+::selection { background: var(--accent-bg); color: var(--ink); }
+
+img { max-width: 100%; height: auto; }
+
+/* ---------- Layout primitives ---------------------------------- */
+.wrap  { width: min(100% - 2.5rem, var(--wide));    margin-inline: auto; }
+.prose { width: min(100% - 2.5rem, var(--measure)); margin-inline: auto; }
+
+main { padding-block: var(--s5) var(--s6); }
+
+/* ---------- The .label workhorse (mono, lowercase, tracked) ---- */
+.label {
+  font-family: var(--font-mono);
+  font-size: var(--label-size);
+  font-weight: var(--label-weight);
+  letter-spacing: var(--label-tracking);
+  text-transform: var(--label-transform);
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Links: animated gradient underline ---------------- */
+a {
+  color: inherit;
+  text-decoration: none;
+  background-image: linear-gradient(var(--accent), var(--accent));
+  background-size: 100% var(--link-underline-size);
+  background-repeat: no-repeat;
+  background-position: 0 calc(100% - var(--link-underline-offset));
+  transition: background-size 0.18s ease, color 0.18s ease;
+}
+a:hover { color: var(--accent); background-size: 100% var(--link-underline-hover); }
+a.plain { background-image: none; }
+a.plain:hover { color: var(--accent); }
+
+a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 1px;
+}
+
+/* ---------- Button / call-to-action --------------------------- */
+/* A filled pill link. `background` (shorthand) cancels the link underline
+   gradient with a solid fill; --paper is the text colour so it reads on the
+   accent in BOTH themes (white on Latte blue, dark ink on Nord frost). Hover
+   inverts to an outline. Wrap it in <div class="cta"> for vertical rhythm. */
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s2);
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  font-weight: var(--label-weight);
+  letter-spacing: var(--label-tracking);
+  text-transform: var(--label-transform);
+  color: var(--paper);
+  background: var(--accent);
+  padding: var(--s3) var(--s6);
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  transition: background-color 0.18s ease, color 0.18s ease;
+}
+.button:hover { color: var(--accent); background: transparent; }
+.button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.cta { margin-block: var(--s5); text-align: center; }
+
+/* ---------- Skip link ----------------------------------------- */
+.skip {
+  position: absolute; left: -9999px;
+  background: var(--paper); color: var(--ink);
+  padding: var(--s2) var(--s3); z-index: 10;
+}
+.skip:focus { left: var(--s4); top: var(--s4); }
+
+/* ---------- Top navigation ------------------------------------ */
+.nav {
+  display: flex; align-items: baseline; flex-wrap: wrap;
+  gap: var(--s3) var(--s5);
+  padding-block: var(--s4);
+  border-bottom: 1px solid var(--rule);
+}
+.nav .brand { margin-right: auto; }
+.nav .brand a { background-image: none; }
+.nav a[aria-current='page'] { color: var(--ink); }
+.nav a[aria-current='page']::after { content: ' ·'; color: var(--accent); }
+
+/* theme toggle sits in the nav, hidden until JS un-hides it */
+.theme-toggle {
+  border: 1px solid var(--rule);
+  background: transparent;
+  color: var(--muted);
+  padding: var(--s1) var(--s3);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: border-color 0.18s ease, color 0.18s ease;
+}
+.theme-toggle:hover { color: var(--accent); border-color: var(--accent); }
+.theme-toggle[hidden] { display: none; }
+
+/* ---------- Identity header ----------------------------------- */
+.identity { margin-block: var(--s4) var(--s6); }
+.identity h1 {
+  margin: 0;
+  font-size: clamp(2rem, 1.6rem + 1.6vw, 3rem);
+  font-weight: var(--heading-weight);
+  letter-spacing: var(--heading-tracking);
+  line-height: 1.1;
+  text-wrap: balance;
+}
+.identity .subtitle {
+  margin: var(--s3) 0 0;
+  color: var(--muted);
+  font-size: 1.15rem;
+  text-wrap: pretty;
+}
+.identity .contact {
+  margin: var(--s4) 0 0;
+  line-height: 1.7;
+}
+
+/* ---------- Headings ------------------------------------------ */
+h1, h2, h3 {
+  font-family: var(--font-serif);
+  font-weight: var(--heading-weight);
+  letter-spacing: var(--heading-tracking);
+  text-wrap: balance;
+}
+h2 { font-size: 1.6rem; line-height: 1.2; margin: 0 0 var(--s4); }
+h3 { font-size: 1.2rem; margin: var(--s5) 0 var(--s2); }
+
+/* the section-header pattern: a label with a rule trailing off */
+.rule-label {
+  display: flex; align-items: center; gap: var(--s4);
+  margin-block: var(--s8) var(--s5);
+  font-size: inherit;
+}
+.rule-label::after {
+  content: ''; flex: 1; height: 1px; background: var(--rule);
+}
+.rule-label a { background-image: none; }
+
+/* first section after the identity block shouldn't double up space */
+.identity + section .rule-label { margin-top: var(--s6); }
+
+/* ---------- Prose --------------------------------------------- */
+section { margin: 0; }
+p { margin: 0 0 var(--s4); }
+.lede { text-wrap: pretty; }
+ul, ol { margin: 0 0 var(--s4); padding-left: var(--s5); }
+li { margin-block: var(--s1); }
+li::marker { color: var(--muted); }
+
+hr { border: 0; border-top: 1px solid var(--rule); margin-block: var(--s6); }
+
+blockquote {
+  margin: 0 0 var(--s4);
+  padding: var(--s3) var(--s5);
+  background: var(--paper-sunk);
+  border-left: 2px solid var(--rule);
+}
+blockquote p:last-child { margin-bottom: 0; }
+
+/* ---------- Code ---------------------------------------------- */
+code {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  background: var(--paper-sunk);
+  padding: 0.1em 0.35em;
+  border-radius: 3px;
+}
+pre {
+  background: var(--paper-sunk);
+  padding: var(--s4);
+  border-radius: 6px;
+  overflow-x: auto;
+  border: 1px solid var(--rule);
+}
+pre code { background: none; padding: 0; font-size: 0.82rem; }
+
+/* ---------- Publication / preprint entries -------------------- */
+.entry { margin: 0 0 var(--s5); }
+.entry-title {
+  margin: 0;
+  font-size: 1.1rem;
+  letter-spacing: var(--heading-tracking);
+}
+.entry-authors, .entry-meta, .entry-links {
+  margin: var(--s1) 0 0;
+  color: var(--muted);
+}
+.entry-authors strong { color: var(--ink); font-weight: var(--heading-weight); }
+.entry-meta { font-family: var(--font-mono); font-size: var(--label-size);
+              letter-spacing: var(--label-tracking); text-transform: var(--label-transform); }
+
+/* ---------- Back-link on subpages ----------------------------- */
+.back { margin: 0 0 var(--s5); }
+
+/* ---------- Footer -------------------------------------------- */
+.site-footer {
+  margin-top: var(--s6);
+  padding-top: var(--s4);
+  border-top: 1px solid var(--rule);
+  display: flex; flex-wrap: wrap; gap: var(--s3) var(--s5);
+  align-items: baseline;
+}
+.site-footer .sep { color: var(--muted); }
+
+/* ---------- Images, figures, portraits ------------------------ */
+img { border-radius: 4px; }
+
+figure { margin: 0 0 var(--s5); }
+figure img { display: block; width: 100%; }
+figcaption {
+  margin-top: var(--s2);
+  font-family: var(--font-mono);
+  font-size: var(--label-size);
+  letter-spacing: var(--label-tracking);
+  text-transform: var(--label-transform);
+  color: var(--muted);
+  text-wrap: pretty;
+}
+
+/* a photo of yourself: rounded, bordered, floats beside the intro.
+   use  <img class="portrait" src="media/me.jpg" alt="…">  */
+.portrait {
+  float: right;
+  width: clamp(120px, 34%, 200px);
+  margin: 0 0 var(--s4) var(--s5);
+  border-radius: 8px;
+  border: 1px solid var(--rule);
+  shape-outside: inset(0 round 8px);
+}
+@media (max-width: 34rem) { .portrait { float: none; width: 60%; margin-inline: 0; } }
+
+/* ---------- Embedded interactive work (your HTML animations) --- */
+/* drop a self-contained page in viz/ and embed it:
+   <iframe class="viz" src="viz/thing.html" title="…" loading="lazy"></iframe>
+   Break out of the prose column with the .bleed modifier. */
+.viz {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  background: var(--paper-sunk);
+  margin: 0 0 var(--s5);
+}
+.viz.bleed {
+  width: min(100vw - 2.5rem, var(--wide));
+  margin-inline: calc((var(--measure) - min(100vw - 2.5rem, var(--wide))) / 2);
+  max-width: none;
+}
+@media (max-width: 74rem) { .viz.bleed { width: 100%; margin-inline: 0; } }
+
+/* ---------- Math (KaTeX) -------------------------------------- */
+.katex-display { overflow-x: auto; overflow-y: hidden; padding-block: var(--s2); }
+.katex { font-size: 1.05em; }
+
+/* ---------- Accessibility ------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}
+
+/* ---------- Print --------------------------------------------- */
+@media print {
+  :root { --paper: #fff; --ink: #000; --muted: #333; --rule: #ccc; --accent: #000; }
+  body { font-size: 11pt; }
+  .nav, .theme-toggle, .site-footer, .skip { display: none; }
+  a { background-image: none; text-decoration: underline; }
+}

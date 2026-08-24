@@ -1,0 +1,13 @@
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Editor junk
+.vscode/
+.idea/
+*.swp
+__pycache__/
+
+# Local-only: personal reference photos, not part of the website (28M of HEICs).
+# Kept on disk but never committed/published.
+finnjuhl/

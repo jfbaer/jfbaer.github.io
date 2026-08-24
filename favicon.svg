@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <rect width="32" height="32" rx="6" fill="#f4efe6"/>
+  <!-- Finn Juhl burnt-orange glyph: a small "psi"-ish mark -->
+  <path d="M16 5 v22 M16 12 c-5 0 -7 4 -7 8 M16 12 c5 0 7 4 7 8"
+        fill="none" stroke="#c8552c" stroke-width="2.4"
+        stroke-linecap="round"/>
+</svg>

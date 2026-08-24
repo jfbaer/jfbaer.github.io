@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- PRE-LAUNCH: keeps the site UNLISTED — anyone with the link can view it,
+       but search engines won't index it. To GO PUBLIC, delete this one line
+       and loosen robots.txt (see DEPLOY.md), then rebuild. -->
+  <meta name="robots" content="noindex, nofollow">
+  <title>Teaching — Jake Francis Baer</title>
+  <meta name="description" content="Teaching and reading seminars of Jake Francis Baer.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="fonts/fonts.css">
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Apply the saved theme before first paint so dark-mode visitors
+       never see a flash of light. ES5 + try/catch: this runs before
+       anything else and must not throw in a private window. -->
+  <script>
+    (function () {
+      var KEY = 'theme';                 /* 'dark' when chosen; absent = light */
+      var root = document.documentElement;
+      try {
+        if (localStorage.getItem(KEY) === 'dark') root.setAttribute('data-theme', 'dark');
+      } catch (e) { /* private mode: stay light */ }
+      window.__theme = {
+        isDark: function () { return root.getAttribute('data-theme') === 'dark'; },
+        set: function (dark) {
+          try {
+            if (dark) { root.setAttribute('data-theme', 'dark'); localStorage.setItem(KEY, 'dark'); }
+            else      { root.removeAttribute('data-theme');       localStorage.removeItem(KEY); }
+          } catch (e) {
+            if (dark) root.setAttribute('data-theme', 'dark'); else root.removeAttribute('data-theme');
+          }
+          document.dispatchEvent(new CustomEvent('themechange'));
+        }
+      };
+    })();
+  </script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <div class="wrap">
+    <nav class="nav">
+
+      <span class="brand label"><a href="index.html">Jake Francis Baer</a></span>
+      <a class="label" href="research.html">research</a>
+      <a class="label" href="teaching.html" aria-current="page">teaching</a>
+      <a class="label" href="fun.html">fun</a>
+      <button class="theme-toggle label" type="button" hidden>dark</button>
+    </nav>
+  </div>
+
+  <main id="main" class="prose">
+    <!-- GENERATED FILE — do not edit. Edit pages/teaching.md and run `python3 build.py`. -->
+
+    <header class="identity">
+      <h1>Teaching</h1>
+      </header>
+
+    <p>
+      I am not teaching during the 2026–2027 academic year, as I am supported by
+    Wayne State University's Rumble Fellowship.
+    </p>
+
+    <section id="courses">
+      <h2 class="rule-label"><span class="label">Courses</span></h2>
+      <p>
+        I have been the instructor of record for the following courses at Wayne State
+      University.
+      </p>
+      <ul>
+        <li><strong>Calculus 2</strong> — Winter 2026</li>
+        <li><strong>College Algebra</strong> — Fall 2025</li>
+        <li><strong>Calculus 1</strong> — Fall 2023</li>
+        <li><strong>Calculus 1</strong> — Winter 2023</li>
+        <li><strong>College Algebra</strong> — Fall 2022</li>
+      </ul>
+    </section>
+
+    <section id="reading-seminars">
+      <h2 class="rule-label"><span class="label">Reading seminars</span></h2>
+      <p>
+        I was the assistant for the eCHT <a href="https://s.wayne.edu/echt/echt-reading-seminars/echt-secondary-steenrod-algebra-reading-seminar-fall-2025/">Secondary Steenrod Algebra Reading Seminar</a> on secondary cohomology operations, Fall 2025.
+      </p>
+    </section>
+  </main>
+
+  <div class="wrap">
+    <footer class="site-footer">
+
+      <span class="label">© 2026 Jake Francis Baer</span>
+      <span class="sep label">·</span>
+      <span class="label">built with python + katex</span>
+      <span class="sep label">·</span>
+      <span class="label"><a href="https://github.com/">source</a></span>
+    </footer>
+  </div>
+
+  <!-- Un-hide the toggle (so no-JS visitors never see a dead control)
+       and wire it up. Kept tiny and deferred. -->
+  <script>
+    (function () {
+      var btn = document.querySelector('.theme-toggle');
+      if (!btn || !window.__theme) return;
+      function sync() {
+        var dark = window.__theme.isDark();
+        btn.textContent = dark ? 'light' : 'dark';
+        btn.setAttribute('aria-pressed', String(dark));
+        btn.setAttribute('aria-label', 'Switch to ' + (dark ? 'light' : 'dark') + ' mode');
+      }
+      btn.hidden = false;
+      sync();
+      btn.addEventListener('click', function () { window.__theme.set(!window.__theme.isDark()); sync(); });
+    })();
+  </script>
+</body>
+</html>

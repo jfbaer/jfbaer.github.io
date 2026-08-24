@@ -1,0 +1,35 @@
+<style>
+  /* Interactive spectral-sequence page-turner, parked in the right margin
+     and aligned vertically with the big name (top set by the script below).
+     Hidden where it would collide with the prose. */
+  .ss-embed{
+    position: absolute;
+    right: clamp(1rem, 4vw, 3rem);
+    width: clamp(260px, 24vw, 400px);
+    z-index: 1;
+  }
+  .ss-embed iframe{
+    display: block; width: 100%; aspect-ratio: 468 / 228;
+    border: 0; background: transparent;
+  }
+  @media (max-width: 1200px){ .ss-embed{ display: none; } }
+</style>
+<div class="ss-embed">
+  <iframe src="viz/spectral/chart.html"
+          title="Interactive Adams spectral sequence — click to turn the page forward, right-click to go back"
+          loading="lazy" scrolling="no"></iframe>
+</div>
+<script>
+  (function () {
+    var box = document.querySelector('.ss-embed');
+    var h1 = document.querySelector('.identity h1');
+    if (!box || !h1) return;
+    function place(){                    // top of the chart = top of the name
+      var r = h1.getBoundingClientRect();
+      box.style.top = (r.top + window.scrollY) + 'px';
+    }
+    place();
+    window.addEventListener('resize', place);
+    window.addEventListener('load', place);
+  })();
+</script>

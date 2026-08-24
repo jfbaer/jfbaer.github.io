@@ -1,0 +1,135 @@
+% Francis Baer — CV
+% Rebuilt as LaTeX source so the layout reflows cleanly and is easy to edit.
+% Compile:  pdflatex cv.tex   (output: cv.pdf)
+\documentclass[11pt]{article}
+
+\usepackage[letterpaper,margin=1in]{geometry}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[colorlinks=true,urlcolor=RoyalBlue,linkcolor=RoyalBlue]{hyperref}
+
+\pagestyle{plain}
+\setlength{\parindent}{0pt}
+
+% --- section headers: small caps, letter-spaced, rule underneath ----------
+\titleformat{\section}
+  {\normalfont\scshape\large}{}{0em}{}[{\vspace{2pt}\titlerule\vspace{-2pt}}]
+\titlespacing*{\section}{0pt}{1.5em}{0.7em}
+
+% --- one CV line: bold title (wraps) on the left, date flush right. The date
+%     column is measured to the date's own width, so short dates leave the
+%     title full width (one line) and the date never breaks across lines. ----
+\newlength{\cvdatew}
+\newcommand{\cvline}[2]{%
+  \settowidth{\cvdatew}{#2}%
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-\cvdatew-1em\relax}\raggedright\textbf{#1}\end{minipage}%
+  \hfill
+  \makebox[\cvdatew][r]{#2}\par}
+% --- an italic detail line under a CV line --------------------------------
+\newcommand{\cvdetail}[1]{{\itshape #1}\par}
+% --- vertical gap between multi-line entries ------------------------------
+\newcommand{\cvgap}{\vspace{0.55em}}
+
+% tight bullet lists
+\setlist[itemize]{leftmargin=1.5em,itemsep=0.35em,topsep=0.3em,parsep=0pt}
+
+\begin{document}
+
+% ----------------------------------------------------------------- header
+\begin{center}
+  {\LARGE\bfseries Jake Francis Baer}\\[0.4em]
+  Department of Mathematics, Wayne State University \quad$\cdot$\quad
+  \href{mailto:francis@wayne.edu}{francis@wayne.edu}
+\end{center}
+\vspace{0.4em}
+
+% -------------------------------------------------------- research interests
+\section{Research Interests}
+Stable and unstable homotopy groups via the Adams spectral sequence and
+synthetic methods.
+
+% --------------------------------------------------------------- education
+\section{Education}
+\cvline{Wayne State University}{2021 -- Present}
+\cvdetail{Ph.D.\ Mathematics \quad Advisors: Dan Isaksen and William Balderrama}
+\cvgap
+\cvline{Reed College}{2016 -- 2021}
+\cvdetail{B.A.\ Mathematics \quad Advisor: Kyle Ormsby}
+\cvdetail{Thesis: ``Connective $K$-theory Cooperations and Numerical Polynomials''}
+
+% --------------------------------------------------------------- preprints
+\section{Preprints}
+\begin{itemize}
+  \item The algebraic Novikov spectral sequence for topological modular forms.
+        Submitted. \\ \href{https://arxiv.org/abs/2404.05573}{arxiv.org/abs/2404.05573}
+  \item Stable comodule deformations and the synthetic Adams--Novikov spectral
+        sequence, with Max Johnson and Peter Marek. Submitted. \\
+        \href{https://arxiv.org/abs/2402.14274}{arxiv.org/abs/2402.14274}
+\end{itemize}
+
+% --------------------------------------------------------- work in progress
+\section{Work in Progress}
+\begin{itemize}
+  \item Automated proofs of unstable Adams differentials.
+  \item Metastable homotopy groups of spheres, joint with William Balderrama,
+        Eva Belmont, and Dan Isaksen.
+\end{itemize}
+
+% ------------------------------------------------------------- invited talks
+\section{Invited Talks}
+\cvline{Joint Mathematics Meetings}{January 2026}
+\cvdetail{Washington D.C., New Voices in Homotopy Theory}
+\cvdetail{``Automated Proofs of Unstable Adams Differentials''}
+\cvgap
+\cvline{The University of Chicago Topology Seminar}{October 2025}
+\cvdetail{``Composition Methods in the Unstable Adams Spectral Sequence''}
+\cvgap
+\cvline{Case Western Reserve University Topology Seminar}{April 2025}
+\cvdetail{``Composition Methods in the Unstable Adams Spectral Sequence''}
+
+% -------------------------------------------------------- contributed talks
+\section{Contributed Talks}
+\cvline{Young Topologists Meeting}{June 2025}
+\cvdetail{KTH/Stockholm University --- ``Composition Methods in the Unstable Adams Spectral Sequence''}
+\cvgap
+\cvline{Graduate Student Geometry and Topology Conference}{April 2025}
+\cvdetail{Bloomington, Indiana --- ``Composition Methods in the Unstable Adams Spectral Sequence''}
+\cvgap
+\cvline{Wayne State Topology Seminar}{March 2024}
+\cvdetail{``The algebraic Novikov spectral sequence for tmf''}
+
+% -------------------------------------------------------- grants and awards
+\section{Grants and Awards}
+\cvline{Graduate Research Assistantship, National Science Foundation}{Summer 2022, 2023}
+\cvgap
+\cvline{Summer Opportunity Fellowship Award, Reed College}{Summer 2021}
+
+% ---------------------------------------------------------------- teaching
+\section{Teaching}
+\cvline{Instructor for Calculus 2, Wayne State University}{Winter 2026}
+\cvline{Instructor for College Algebra, Wayne State University}{Fall 2025}
+\cvline{Instructor for Calculus 1, Wayne State University}{Fall 2023}
+\cvline{Instructor for Calculus 1, Wayne State University}{Winter 2023}
+\cvline{Instructor for College Algebra, Wayne State University}{Fall 2022}
+
+% -------------------------------------------------------- seminars organized
+\section{Seminars Organized}
+\cvline{Homotopy Theoretic Methods in Manifold Theory, Wayne State University}{Winter 2024}
+\cvline{Hochschild Cohomology and Deformation Theory, Wayne State University}{Summer 2023}
+
+% ------------------------------------------- selected workshops and conferences
+\section{Selected Workshops and Conferences}
+\cvline{Computations in Stable Homotopy Theory, AIM, Pasadena}{October 2025}
+\cvline{Secondary Steenrod Algebra Seminar, eCHT (online)}{Fall 2025}
+\cvline{Beyond the Telescope Conjecture, Isaac Newton Institute, Cambridge}{June 2025}
+\cvline{Kan Seminar, eCHT (online)}{September -- December 2024}
+\cvline{tmf Seminar, eCHT (online)}{January -- May 2023}
+\cvline{Mahowald Invariant Seminar, eCHT (online)}{September -- December 2022}
+\cvline{EWM-EMS Summer School, Institut Mittag-Leffler (online)}{June 2022}
+\cvline{Synthetic Spectra Reading Seminar, eCHT (online)}{January -- April 2022}
+
+\end{document}

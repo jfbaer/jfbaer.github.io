@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>color lab</title>
+<!--
+  A DEV TOOL — not part of the published site.
+
+  Preview whole palettes on your live homepage (loaded in an <iframe>), fine-
+  tune the accent, and copy the exact style.md values. When you like one:
+    1. paste the block it shows into style.md (the -light / -dark pairs)
+    2. python3 build.py   (or just save — serve.py rebuilds)
+
+  Open via the dev server:  python3 serve.py -> localhost:8000/color-lab.html
+-->
+<style>
+  :root{ --mono:'IBM Plex Mono',ui-monospace,Menlo,monospace; }
+  *{box-sizing:border-box}
+  body{margin:0;height:100vh;display:grid;grid-template-columns:340px 1fr;
+       font:15px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+       background:#FCFBF8;color:#14130F}
+  .panel{border-right:1px solid #E3DFD4;display:flex;flex-direction:column;min-height:0}
+  .panel h1{font:600 12px/1 var(--mono);letter-spacing:.14em;text-transform:lowercase;
+            color:#5A574D;margin:0;padding:16px 16px 10px}
+  .modes{display:flex;gap:6px;padding:0 16px 10px}
+  .mode{flex:1;border:1px solid #E3DFD4;background:transparent;color:#5A574D;
+        padding:8px 6px;border-radius:6px;cursor:pointer;font:11px/1.3 var(--mono);
+        letter-spacing:.04em;text-transform:lowercase;text-align:center}
+  .mode[aria-pressed="true"]{border-color:#A93B1B;color:#A93B1B;background:#F5E9E3}
+  ul{list-style:none;margin:0;padding:0 8px;overflow:auto;flex:1;min-height:0}
+  li{padding:8px 10px;border-radius:6px;cursor:pointer;display:flex;align-items:center;gap:10px}
+  li:hover{background:#F4F1E9}
+  li[aria-selected="true"]{background:#A93B1B;color:#fff}
+  .sw{display:inline-flex;flex:0 0 auto;border-radius:4px;overflow:hidden;
+      border:1px solid rgba(0,0,0,.15)}
+  .sw span{width:16px;height:22px;display:block}
+  .nm{font-size:14px}
+  .tune{padding:10px 16px;border-top:1px solid #E3DFD4;display:flex;
+        align-items:center;gap:10px;font:11px/1 var(--mono);color:#5A574D}
+  .tune input[type=color]{width:34px;height:26px;border:1px solid #E3DFD4;
+        border-radius:5px;background:none;padding:0;cursor:pointer}
+  .out{border-top:1px solid #E3DFD4;padding:12px 16px;background:#F4F1E9}
+  .out .row{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+  .out code{display:block;font:11px/1.5 var(--mono);background:#FCFBF8;
+            border:1px solid #E3DFD4;border-radius:5px;padding:8px 9px;margin:0;
+            white-space:pre;overflow:auto;max-height:190px}
+  .out button{font:11px/1 var(--mono);border:1px solid #E3DFD4;background:#FCFBF8;
+              color:#14130F;padding:6px 10px;border-radius:6px;cursor:pointer}
+  .out button:hover{border-color:#A93B1B;color:#A93B1B}
+  .stage{display:flex;flex-direction:column;min-height:0}
+  .stagebar{display:flex;gap:12px;align-items:center;padding:10px 16px;
+            border-bottom:1px solid #E3DFD4;font:11px/1 var(--mono);color:#5A574D}
+  .stagebar button{font:inherit;border:1px solid #E3DFD4;background:transparent;
+                   color:#5A574D;padding:6px 10px;border-radius:999px;cursor:pointer}
+  .stagebar button:hover{border-color:#A93B1B;color:#A93B1B}
+  iframe{border:0;flex:1;width:100%;background:#FCFBF8}
+</style>
+</head>
+<body>
+  <div class="panel">
+    <h1>color lab</h1>
+    <div class="modes">
+      <button class="mode" data-mode="light" aria-pressed="true">light</button>
+      <button class="mode" data-mode="dark" aria-pressed="false">dark</button>
+    </div>
+    <ul id="list"></ul>
+    <div class="tune">
+      accent <input type="color" id="accent">
+      <span style="opacity:.7">fine-tune the current palette</span>
+    </div>
+    <div class="out">
+      <div class="row">
+        <strong style="font:600 11px/1 var(--mono);letter-spacing:.1em;text-transform:lowercase;color:#5A574D">for style.md</strong>
+        <button id="copy">copy</button>
+      </div>
+      <code id="lines"></code>
+    </div>
+  </div>
+  <div class="stage">
+    <div class="stagebar">
+      <span>preview</span>
+      <button id="prev">‹ prev</button>
+      <button id="next">next ›</button>
+      <span style="margin-left:auto">↑ ↓ to cycle · applied live</span>
+    </div>
+    <iframe id="preview" src="index.html" title="live preview"></iframe>
+  </div>
+
+<script>
+// roles, in style.md order: paper, paper-sunk, ink, muted, rule, accent, accent-bg
+const ROLES = ['paper','paper-sunk','ink','muted','rule','accent','accent-bg'];
+// each palette: name, light[7], dark[7]
+const PALETTES = [
+  {name:'Paper & Terracotta',
+   light:['#FCFBF8','#F4F1E9','#14130F','#5A574D','#E3DFD4','#A93B1B','#F5E9E3'],
+   dark: ['#121213','#191919','#EDEAE2','#918C7E','#2B2B28','#E8734A','#241A16']},
+  {name:'Cool Slate',
+   light:['#FAFAFB','#F0F1F3','#16181D','#5B6169','#E1E3E7','#3B6CA8','#E7EEF6'],
+   dark: ['#14161A','#1B1E23','#E7E9ED','#8A9099','#2A2E34','#6FA8DC','#17222E']},
+  {name:'Sepia & Ink',
+   light:['#FBF7EF','#F2EADB','#2A2015','#6B5D48','#E4D8C4','#9C6B1E','#F3E7D0'],
+   dark: ['#17130D','#1F1A12','#EDE4D3','#A08D72','#302818','#D6A24A','#241C10']},
+  {name:'Forest',
+   light:['#F9FAF7','#EEF1EA','#16201A','#566056','#DDE3DA','#2E7D5B','#E2F0E8'],
+   dark: ['#101512','#171E19','#E4EAE3','#869084','#263028','#5FB98D','#14231C']},
+  {name:'Plum',
+   light:['#FCF9FB','#F3EAF0','#1E1520','#61566A','#E5DBE4','#8E3B7A','#F1E4EF'],
+   dark: ['#16121A','#1E1823','#EAE2EC','#968CA0','#2E2833','#C86FB4','#221629']},
+  {name:'Ocean',
+   light:['#F7FBFB','#E9F2F2','#10201F','#4E6260','#D6E4E3','#2FA8A0','#DEF0EE'],
+   dark: ['#0F1615','#16201F','#E1ECEA','#859492','#253230','#56C9BF','#12211F']},
+  {name:'Ink & Red',
+   light:['#FFFFFF','#F4F4F4','#111111','#575757','#E2E2E2','#C0392E','#F7E7E4'],
+   dark: ['#0E0E0E','#171717','#ECECEC','#8A8A8A','#2A2A2A','#E5645A','#241514']},
+  {name:'Sand & Rust',
+   light:['#FBF8F3','#F0E9DE','#241C13','#6E6151','#E2D7C6','#B4531F','#F3E4D5'],
+   dark: ['#16120D','#1E1811','#EBE2D4','#9E9079','#2E2718','#E07A3C','#241811']},
+];
+
+// deep-copy so accent tweaks don't mutate the presets
+const state = PALETTES.map(p => ({name:p.name, light:[...p.light], dark:[...p.dark]}));
+let sel = 0, mode = 'light';
+
+const iframe = document.getElementById('preview');
+const listEl = document.getElementById('list');
+const accentEl = document.getElementById('accent');
+
+function doc(){ try { return iframe.contentDocument; } catch(e){ return null; } }
+
+function apply(){
+  const d = doc(); if(!d || !d.documentElement) return;
+  const root = d.documentElement;
+  const p = state[sel];
+  // set both light + dark vars, then flip data-theme for the preview mode
+  ROLES.forEach((r,i)=>{
+    root.style.setProperty('--'+r, (mode==='dark'?p.dark:p.light)[i]);
+  });
+  if(mode==='dark') root.setAttribute('data-theme','dark');
+  else root.removeAttribute('data-theme');
+  accentEl.value = (mode==='dark'?p.dark:p.light)[5];
+  renderOut();
+}
+
+function renderOut(){
+  const p = state[sel];
+  const pad = s => (s+':').padEnd(18);
+  let out = '';
+  ROLES.forEach((r,i)=>{ out += pad(r+'-light') + p.light[i] + '\n'; });
+  out += '\n';
+  ROLES.forEach((r,i)=>{ out += pad(r+'-dark') + p.dark[i] + '\n'; });
+  document.getElementById('lines').textContent = out.trimEnd();
+}
+
+function renderList(){
+  listEl.innerHTML = '';
+  state.forEach((p,i)=>{
+    const li = document.createElement('li');
+    li.setAttribute('aria-selected', i===sel);
+    const cols = (mode==='dark'?p.dark:p.light);
+    const chips = [cols[0],cols[2],cols[5],cols[4]]  // paper, ink, accent, rule
+      .map(c=>`<span style="background:${c}"></span>`).join('');
+    li.innerHTML = `<span class="sw">${chips}</span><span class="nm">${p.name}</span>`;
+    li.onclick = ()=>{ sel=i; pick(); };
+    listEl.appendChild(li);
+  });
+}
+
+function pick(){ apply(); renderList(); }
+function move(d){ sel=(sel+d+state.length)%state.length; pick(); }
+
+document.querySelectorAll('.mode').forEach(b=> b.onclick = ()=>{
+  mode = b.dataset.mode;
+  document.querySelectorAll('.mode').forEach(x=> x.setAttribute('aria-pressed', x===b));
+  apply(); renderList();
+});
+accentEl.oninput = ()=>{
+  const p = state[sel];
+  (mode==='dark'?p.dark:p.light)[5] = accentEl.value.toUpperCase();
+  apply();
+};
+document.getElementById('prev').onclick = ()=> move(-1);
+document.getElementById('next').onclick = ()=> move(1);
+document.getElementById('copy').onclick = ()=>
+  navigator.clipboard.writeText(document.getElementById('lines').textContent);
+document.addEventListener('keydown', e=>{
+  if(e.key==='ArrowDown'||e.key==='ArrowRight'){ e.preventDefault(); move(1); }
+  if(e.key==='ArrowUp'||e.key==='ArrowLeft'){ e.preventDefault(); move(-1); }
+});
+
+iframe.addEventListener('load', ()=> setTimeout(apply, 60));
+renderList();
+</script>
+</body>
+</html>
