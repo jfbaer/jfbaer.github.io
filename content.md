@@ -6,7 +6,7 @@ description: Academic homepage of Jake Francis Baer, Ph.D. Candidate in Mathemat
 
 # Top navigation: pipe-separated `Label target`. Targets are #anchors
 # (section ids, auto-slugified from headings) or page/file paths.
-nav: research research.html | teaching teaching.html | fun fun.html
+nav: research research.html | teaching teaching.html | Steenrod art fun.html
 
 # Footer: pipe-separated parts, rendered as mono labels.
 footer: © 2026 Jake Francis Baer | built with python + katex | [source](https://github.com/)
