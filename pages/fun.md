@@ -1,6 +1,6 @@
 ---
 title: Steenrod art
-description: A library of finitely generated modules over the 2-primary Steenrod algebra, realizable as the cohomology of finite cell complexes.
+description: A library of indecomposable modules over the 2-primary Steenrod algebra; those rigorously certified realizable as the cohomology of a spectrum are marked.
 ---
 
 <style>
@@ -26,12 +26,21 @@ $\mathrm{Sq}^8$, and $\mathrm{Sq}^{16}$ are <span class="sq1">blue</span>,
 
 Each module is indecomposable, and no two are isomorphic.
 
-Every module shown is also realizable. A module $M$ over $\mathcal{A}$ is listed
-as realizable when the obstruction groups $\mathrm{Ext}_{\mathcal{A}}^{s,\,s-2}(M,M)$,
-for $3 \le s \le \operatorname{diam}(M)+2$, all vanish — the stem-$(-2)$
-obstructions, computed from a minimal free resolution of $M$, to realizing $M$
-as the cohomology $H^{*}(X;\mathbb{F}_2)$ of a spectrum $X$. We make no claims
-about the uniqueness of these realizations.
+A module $M$ is **realizable** if it is the cohomology of a spectrum — some $X$
+with $H^{*}(X;\mathbb{F}_2) \cong M$ as $\mathcal{A}$-modules. The obstructions to
+building such an $X$ lie in the self-Ext groups
+$\mathrm{Ext}_{\mathcal{A}}^{\,s,\,s-2}(M,M)$ for **all** $s \ge 3$ (Toda's
+realization theorem, via Goerss–Hopkins obstruction theory); if they all vanish,
+$M$ is realizable.
+
+Modules marked **✓** are **rigorously certified** by this test: $M$ is free over
+$\mathcal{A}(0)$ — its $\mathrm{Sq}^1$-Margolis homology vanishes, ruling out the
+infinite $h_0$-towers that would otherwise keep the obstruction groups from ever
+vanishing — and its stem-$(-2)$ groups vanish up through the Adams vanishing line,
+computed from a minimal free resolution of $M$. The criterion is *sufficient, not
+necessary*: an unmarked module is **not** disproven — many are realizable but not
+certifiable this way (even $C\eta$ and the sphere's $\mathbb{F}_2 = H^{*}(S^0)$ are
+realizable yet uncertified). We make no claims about uniqueness of realizations.
 
 Click a module to copy its sseq-format JSON.
 

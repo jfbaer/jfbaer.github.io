@@ -11,3 +11,6 @@ __pycache__/
 # Local-only: personal reference photos, not part of the website (28M of HEICs).
 # Kept on disk but never committed/published.
 finnjuhl/
+
+# Full-res profile original — the web-optimized copy lives in media/baer-profile.jpg
+BaerProfile.jpg

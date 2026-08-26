@@ -23,6 +23,8 @@ footer: © 2026 Jake Francis Baer | built with python + katex | [source](https:/
 
 ## About me
 
+<img class="portrait" src="media/baer-profile.jpg" alt="Jake Francis Baer">
+
 I am a fifth year Ph.D. student in the Department of Mathematics at Wayne State
 University, advised by Dan Isaksen and William Balderrama. 
 

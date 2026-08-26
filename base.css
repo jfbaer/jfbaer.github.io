@@ -263,6 +263,9 @@ figcaption {
 .portrait {
   float: right;
   width: clamp(120px, 34%, 200px);
+  aspect-ratio: 1 / 1;        /* square … */
+  object-fit: cover;          /* … cropped to fill, never distorted */
+  object-position: center;
   margin: 0 0 var(--s4) var(--s5);
   border-radius: 8px;
   border: 1px solid var(--rule);
