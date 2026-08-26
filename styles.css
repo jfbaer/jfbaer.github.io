@@ -194,10 +194,12 @@ a:focus-visible {
   flex-wrap: wrap;
 }
 .identity-text { flex: 1 1 16rem; min-width: 0; }
-.identity .portrait { float: none; margin: 0; flex: 0 0 auto; }
+/* the big H1 makes the text block top-heavy, so plain centring lands the photo
+   a touch high; nudge it down so its middle lines up with the subtitle line. */
+.identity .portrait { float: none; margin: 0; flex: 0 0 auto; transform: translateY(0.9rem); }
 @media (max-width: 34rem) {
   .identity { justify-content: center; }
-  .identity .portrait { order: -1; }   /* photo above the name when stacked */
+  .identity .portrait { order: -1; transform: none; }   /* stacked above the name */
 }
 .identity h1 {
   margin: 0;

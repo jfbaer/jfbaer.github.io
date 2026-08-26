@@ -12,6 +12,7 @@ style.md (colours, fonts, spacing — light/dark pairs), the structure in
 base.css, and the words in content.md. See README.md for the formats.
 """
 
+import hashlib
 import html
 import re
 import sys
@@ -24,6 +25,10 @@ BASE_CSS = ROOT / "base.css"
 PAGES_DIR = ROOT / "pages"
 TEMPLATE = ROOT / "template.html"
 STYLES_OUT = ROOT / "styles.css"
+
+# Set in build() to a short hash of the compiled CSS; appended to the
+# stylesheet URL (styles.css?v=…) so a CSS change busts the browser cache.
+STYLE_VERSION = ""
 
 GENERATED_BANNER = (
     "<!-- GENERATED FILE — do not edit. Edit {source} and run"
@@ -351,6 +356,7 @@ KATEX_BODY = """  <script defer src="vendor/katex/katex.min.js"></script>
 
 def write_html(out_path, title, description, nav, content, footer, has_math):
     tpl = TEMPLATE.read_text()
+    tpl = tpl.replace('href="styles.css"', f'href="styles.css?v={STYLE_VERSION}"')
     tpl = tpl.replace("{{title}}", title)
     tpl = tpl.replace("{{description}}", html.escape(description, quote=True))
     tpl = tpl.replace("{{head_extra}}", KATEX_HEAD if has_math else "")
@@ -398,7 +404,10 @@ def build():
 
     # 1. compile the design system
     tokens, _ = parse_frontmatter(STYLE.read_text())
-    STYLES_OUT.write_text(compile_styles(tokens))
+    css = compile_styles(tokens)
+    STYLES_OUT.write_text(css)
+    global STYLE_VERSION
+    STYLE_VERSION = hashlib.md5(css.encode()).hexdigest()[:8]
     print("wrote styles.css")
 
     # 2. homepage
