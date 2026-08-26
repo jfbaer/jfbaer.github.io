@@ -194,9 +194,15 @@ a:focus-visible {
   flex-wrap: wrap;
 }
 .identity-text { flex: 1 1 16rem; min-width: 0; }
-/* the big H1 makes the text block top-heavy, so plain centring lands the photo
-   a touch high; nudge it down so its middle lines up with the subtitle line. */
-.identity .portrait { float: none; margin: 0; flex: 0 0 auto; transform: translateY(0.9rem); }
+/* Size the header photo to about the height of the name/subtitle/contact block
+   so it does NOT make the header taller (which would push the page down). The
+   translateY only shifts it visually to line its middle up with the subtitle;
+   transforms don't affect layout, so "About me" keeps its original position. */
+.identity .portrait {
+  float: none; margin: 0; flex: 0 0 auto;
+  width: clamp(100px, 22%, 120px);
+  transform: translateY(0.7rem);
+}
 @media (max-width: 34rem) {
   .identity { justify-content: center; }
   .identity .portrait { order: -1; transform: none; }   /* stacked above the name */
