@@ -147,20 +147,21 @@ a:focus-visible {
   flex-wrap: wrap;
 }
 .identity-text { flex: 1 1 100%; min-width: 0; }
-/* Wide screens: park the portrait out in the right margin. Absolute
-   positioning removes it from the flex row, so the header stays text-height
-   and nothing below gets pushed down; its overhang falls into the empty
-   margin beside the prose column, not over any text. */
+/* Sit the portrait at the right edge of the text column, in the empty space
+   beside the name. Absolute positioning removes it from the flex row, so the
+   header stays text-height and nothing below gets pushed down; the photo's
+   overhang ends around the "about me" rule, above the paragraphs, so it never
+   covers text. */
 .identity .portrait {
   position: absolute;
   top: 0;
-  left: calc(100% + var(--s5));
+  right: 0;
   width: clamp(150px, 15vw, 200px);
   margin: 0;
 }
-/* Below ~80rem the right margin can't hold the photo, so drop it back into
-   the flow, stacked above the name. */
-@media (max-width: 80rem) {
+/* Narrow screens (where the photo would collide with the subtitle): drop it
+   back into the flow, stacked above the name. */
+@media (max-width: 48rem) {
   .identity { justify-content: center; }
   .identity .portrait {
     position: static;
