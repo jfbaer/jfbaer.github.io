@@ -2,6 +2,7 @@
 name: Jake Francis Baer
 subtitle: Ph.D. Candidate in Mathematics, Wayne State University
 contact: francis [at] wayne [dot] edu 
+portrait: media/baer-profile.jpg
 description: Academic homepage of Jake Francis Baer, Ph.D. Candidate in Mathematics at Wayne State University.
 
 # Top navigation: pipe-separated `Label target`. Targets are #anchors
@@ -22,8 +23,6 @@ footer: © 2026 Jake Francis Baer | built with python + katex | [source](https:/
      adding an include of viz/spectral/embed.partial.html here. -->
 
 ## About me
-
-<img class="portrait" src="media/baer-profile.jpg" alt="Jake Francis Baer">
 
 I am a fifth year Ph.D. student in the Department of Mathematics at Wayne State
 University, advised by Dan Isaksen and William Balderrama. 

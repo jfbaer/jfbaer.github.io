@@ -184,7 +184,21 @@ a:focus-visible {
 .theme-toggle[hidden] { display: none; }
 
 /* ---------- Identity header ----------------------------------- */
-.identity { margin-block: var(--s4) var(--s6); }
+/* name/subtitle/contact on the left, an optional portrait on the right,
+   vertically centred; stacks (photo on top) on narrow screens. */
+.identity {
+  margin-block: var(--s4) var(--s6);
+  display: flex;
+  align-items: center;
+  gap: var(--s5);
+  flex-wrap: wrap;
+}
+.identity-text { flex: 1 1 16rem; min-width: 0; }
+.identity .portrait { float: none; margin: 0; flex: 0 0 auto; }
+@media (max-width: 34rem) {
+  .identity { justify-content: center; }
+  .identity .portrait { order: -1; }   /* photo above the name when stacked */
+}
 .identity h1 {
   margin: 0;
   font-size: clamp(2rem, 1.6rem + 1.6vw, 3rem);
@@ -316,7 +330,7 @@ figcaption {
   object-position: center;
   margin: 0 0 var(--s4) var(--s5);
   border-radius: 8px;
-  border: 1px solid var(--rule);
+  border: 3px solid var(--accent);   /* thicker, accent-coloured frame */
   shape-outside: inset(0 round 8px);
 }
 @media (max-width: 34rem) { .portrait { float: none; width: 60%; margin-inline: 0; } }

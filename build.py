@@ -198,11 +198,18 @@ def render_identity(meta):
         md_inline(part.strip()) for part in meta.get("contact", "").split("|") if part.strip()
     )
     subtitle = meta.get("subtitle", "")
-    parts = ['<header class="identity">', f'  <h1>{md_inline(meta["name"])}</h1>']
+    text = ['<div class="identity-text">', f'  <h1>{md_inline(meta["name"])}</h1>']
     if subtitle:
-        parts.append(f'  <p class="subtitle">{md_inline(subtitle)}</p>')
+        text.append(f'  <p class="subtitle">{md_inline(subtitle)}</p>')
     if contact:
-        parts.append(f'  <p class="contact label">\n        {contact}\n      </p>')
+        text.append(f'  <p class="contact label">\n        {contact}\n      </p>')
+    text.append("</div>")
+    parts = ['<header class="identity">']
+    parts.extend(text)
+    portrait = meta.get("portrait", "")
+    if portrait:
+        alt = html.escape(meta.get("name", ""), quote=True)
+        parts.append(f'<img class="portrait" src="{portrait}" alt="{alt}">')
     parts.append("</header>")
     return "\n      ".join(parts)
 
