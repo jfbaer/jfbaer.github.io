@@ -139,19 +139,35 @@ a:focus-visible {
 /* name/subtitle/contact on the left, an optional portrait on the right,
    vertically centred; stacks (photo on top) on narrow screens. */
 .identity {
+  position: relative;
   margin-block: var(--s4) var(--s6);
   display: flex;
   align-items: center;
   gap: var(--s5);
   flex-wrap: wrap;
 }
-.identity-text { flex: 1 1 16rem; min-width: 0; }
-/* the big H1 makes the text block top-heavy, so plain centring lands the photo
-   a touch high; nudge it down so its middle lines up with the subtitle line. */
-.identity .portrait { float: none; margin: 0; flex: 0 0 auto; transform: translateY(0.9rem); }
-@media (max-width: 34rem) {
+.identity-text { flex: 1 1 100%; min-width: 0; }
+/* Wide screens: park the portrait out in the right margin. Absolute
+   positioning removes it from the flex row, so the header stays text-height
+   and nothing below gets pushed down; its overhang falls into the empty
+   margin beside the prose column, not over any text. */
+.identity .portrait {
+  position: absolute;
+  top: 0;
+  left: calc(100% + var(--s5));
+  width: clamp(150px, 15vw, 200px);
+  margin: 0;
+}
+/* Below ~80rem the right margin can't hold the photo, so drop it back into
+   the flow, stacked above the name. */
+@media (max-width: 80rem) {
   .identity { justify-content: center; }
-  .identity .portrait { order: -1; transform: none; }   /* stacked above the name */
+  .identity .portrait {
+    position: static;
+    width: clamp(120px, 30%, 180px);
+    margin: 0 0 var(--s4);
+    order: -1;
+  }
 }
 .identity h1 {
   margin: 0;
@@ -284,9 +300,10 @@ figcaption {
   object-position: center;
   margin: 0 0 var(--s4) var(--s5);
   border-radius: 8px;
-  border: 3px solid var(--accent);   /* thicker, accent-coloured frame */
+  border: 3px solid #ea76cb;         /* pink frame (Catppuccin Latte pink) */
   shape-outside: inset(0 round 8px);
 }
+[data-theme='dark'] .portrait { border-color: #f5c2e7; }   /* brighter pink on dark */
 @media (max-width: 34rem) { .portrait { float: none; width: 60%; margin-inline: 0; } }
 
 /* ---------- Embedded interactive work (your HTML animations) --- */
