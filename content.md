@@ -25,7 +25,7 @@ footer: © 2026 Jake Francis Baer | built with python + katex | [source](https:/
 ## About me
 
 I am a fifth year Ph.D. student in the Department of Mathematics at Wayne State
-University, advised by Dan Isaksen and William Balderrama. 
+University, advised by Dan Isaksen and William Balderrama. I go by Francis.
 
 I am currently on the job market for positions starting in Fall 2027! 
 
@@ -35,3 +35,26 @@ My research mostly concerns explicit computations in stable and unstable homotop
 An important part of my research work-flow is mathematical visualization. I like building interactive tools for spectral sequence computations, and consolidating what we know about homotopy theory and algebraic topology into usable databases.
 
 My CV can be found [here](files/cv.pdf).
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Jake Francis Baer",
+  "alternateName": "Francis Baer",
+  "givenName": "Jake",
+  "additionalName": "Francis",
+  "familyName": "Baer",
+  "url": "https://jfbaer.github.io",
+  "jobTitle": "Ph.D. Candidate in Mathematics",
+  "affiliation": {
+    "@type": "CollegeOrUniversity",
+    "name": "Wayne State University"
+  },
+  "knowsAbout": ["algebraic topology", "homotopy theory", "spectral sequences"],
+  "sameAs": [
+    "https://github.com/jfbaer",
+    "https://zenodo.org/records/22820890"
+  ]
+}
+</script>
