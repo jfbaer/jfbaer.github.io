@@ -59,7 +59,7 @@ My favorite questions in mathematics involve geometrically flavored classificati
 One of my favorite problems in algebraic topology is the classification of homotopy types of finite cell complexes. The key ingredient in this classification problem is explicit knowledge of homotopy groups of spheres. 
 
 <div class="cta">
-  <a class="button" href="viz/adams-charts/index.html" target="_blank" rel="noopener">launch unstable adams charts</a>
+  <a class="button" href="https://jfbaer.github.io/adams-ehp/" target="_blank" rel="noopener">launch unstable adams charts</a>
 </div>
 
 This link will take you to the unstable Adams charts that I generated in a recent computer-based approach to computing some new homotopy groups of spheres. The $\mathrm{E}_2$-page was computed using the lambda algebra and Curtis algorithm. Unstable Adams differentials were deduced from stable Adams differentials using the algebraic EHP sequence and the unstable Leibniz rule. 
