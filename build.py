@@ -31,7 +31,7 @@ STYLES_OUT = ROOT / "styles.css"
 STYLE_VERSION = ""
 
 GENERATED_BANNER = (
-    "<!-- GENERATED FILE — do not edit. Edit {source} and run"
+    "<!-- GENERATED FILE, do not edit. Edit {source} and run"
     " `python3 build.py`. -->"
 )
 
@@ -429,7 +429,7 @@ def build():
         title = meta.get("title", path.stem.replace("-", " ").title())
         build_page(
             ROOT / f"{path.stem}.html",
-            f"{title} — {site.get('name', '')}",
+            f"{title} | {site.get('name', '')}",
             meta.get("description", site.get("description", "")),
             render_page_header(site, title),
             page_body,

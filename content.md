@@ -32,6 +32,6 @@ I am currently on the job market for positions starting in Fall 2027!
 
 My research mostly concerns explicit computations in stable and unstable homotopy theory. Recently I have been interested in building computer models for spectral sequences.
 
-An important part of my research work-flow is mathematical visualization and strategizing how to make mathematics more accessible and engaging. I'm particularly interested in developing interactive tools that make spectral sequence computations more efficient and intuitive, and in consolidating our knowledge of homotopy theory and algebraic topology into well-organized, accessible databases.
+An important part of my research work-flow is mathematical visualization. I like building interactive tools for spectral sequence computations, and consolidating what we know about homotopy theory and algebraic topology into usable databases.
 
 My CV can be found [here](files/cv.pdf).

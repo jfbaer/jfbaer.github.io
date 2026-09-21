@@ -3,7 +3,7 @@ title: Research
 description: Research and preprints of Jake Francis Baer.
 ---
 
-My favorite questions in mathematics involve geometrically flavored classification problems whose solutions depend on the explicit computation of some invariant of a space. I'm particularly interested in revisiting classical problems in homotopy theory and applying computer automation to methods traditionally done by hand.
+My favorite questions in mathematics involve geometrically flavored classification problems whose solutions depend on the explicit computation of some invariant of a space.
 
 <style>
   /* Two equal columns (bullets | chart) in a block that breaks out a little
@@ -23,7 +23,7 @@ My favorite questions in mathematics involve geometrically flavored classificati
   .focus-row .focus-viz{ flex:0 0 auto; width:min(25rem, calc(100vw - 3rem)); }
   .focus-row .focus-viz figure{ margin:0; }
   /* aspect ratio matches the chart's own viewBox (420/312) so it fills the
-     box with almost no letterboxing — bigger, bolder on the page. */
+     box with almost no letterboxing; bigger, bolder on the page. */
   .focus-row .focus-viz iframe{ display:block; width:100%;
               aspect-ratio:420 / 312; border:0; background:transparent; }
   .focus-row .focus-caption{ margin-top:var(--s3); text-align:center;
@@ -48,7 +48,7 @@ My favorite questions in mathematics involve geometrically flavored classificati
   </div>
   <div class="focus-viz">
     <figure>
-      <iframe src="viz/spectral/chart.html" title="Interactive spectral sequence — click to turn the page forward, right-click to go back" loading="lazy" scrolling="no"></iframe>
+      <iframe src="viz/spectral/chart.html" title="Interactive spectral sequence: click to turn the page forward, right-click to go back" loading="lazy" scrolling="no"></iframe>
       <figcaption class="focus-caption">a piece of the $C_4$-slice spectral sequence for $\mathrm{BP}^{(C_4)}\langle 1 \rangle$</figcaption>
     </figure>
   </div>

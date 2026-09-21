@@ -11,11 +11,11 @@ Wayne State University's Rumble Fellowship.
 I have been the instructor of record for the following courses at Wayne State
 University.
 
-- **Calculus 2** — Winter 2026
-- **College Algebra** — Fall 2025
-- **Calculus 1** — Fall 2023
-- **Calculus 1** — Winter 2023
-- **College Algebra** — Fall 2022
+- **Calculus 2**, Winter 2026
+- **College Algebra**, Fall 2025
+- **Calculus 1**, Fall 2023
+- **Calculus 1**, Winter 2023
+- **College Algebra**, Fall 2022
 
 ## Reading seminars
 
